@@ -1,10 +1,11 @@
-// Node types (21 total: 5 code + 8 non-code + 3 domain + 5 knowledge)
+// Node types (27 total: 5 code + 8 non-code + 3 domain + 5 knowledge + 6 design)
 export type NodeType =
   | "file" | "function" | "class" | "module" | "concept"
   | "config" | "document" | "service" | "table" | "endpoint"
   | "pipeline" | "schema" | "resource"
   | "domain" | "flow" | "step"
-  | "article" | "entity" | "topic" | "claim" | "source";
+  | "article" | "entity" | "topic" | "claim" | "source"
+  | "page" | "screen" | "component" | "componentSet" | "instance" | "token";
 
 // Edge types (35 total in 8 categories: Structural, Behavioral, Data flow, Dependencies, Semantic, Infrastructure/Schema, Domain, Knowledge)
 export type EdgeType =
@@ -16,7 +17,9 @@ export type EdgeType =
   | "deploys" | "serves" | "provisions" | "triggers"                // Infrastructure
   | "migrates" | "documents" | "routes" | "defines_schema"          // Schema/Data
   | "contains_flow" | "flow_step" | "cross_domain"                  // Domain
-  | "cites" | "contradicts" | "builds_on" | "exemplifies" | "categorized_under" | "authored_by"; // Knowledge
+  | "cites" | "contradicts" | "builds_on" | "exemplifies" | "categorized_under" | "authored_by" // Knowledge
+  // Design (3 new → 38 total)
+  | "instance_of" | "variant_of" | "uses_token";
 
 // Optional knowledge metadata for article/entity/topic/claim/source nodes
 export interface KnowledgeMeta {
@@ -35,7 +38,20 @@ export interface DomainMeta {
   entryType?: "http" | "cli" | "event" | "cron" | "manual";
 }
 
-// GraphNode with 21 types: 5 code + 8 non-code + 3 domain + 5 knowledge
+// Optional Figma metadata for page/screen/component/componentSet/instance/token nodes
+export interface FigmaMeta {
+  fileKey?: string;
+  nodeId?: string;            // Figma node id, e.g. "1:23"
+  figmaType?: string;         // FRAME | COMPONENT | COMPONENT_SET | INSTANCE | TEXT ...
+  thumbnailUrl?: string;      // lazily filled from GET /v1/images
+  dimensions?: { width: number; height: number };
+  tokenKind?: "color" | "type" | "spacing" | "effect" | "grid";
+  tokenValue?: string;        // e.g. "#0A84FF", "16px"
+  prototypeTargets?: string[]; // roadmap B — recorded now, edges later
+  componentKey?: string;       // roadmap C — recorded now
+}
+
+// GraphNode with 27 types: 5 code + 8 non-code + 3 domain + 5 knowledge + 6 design
 export interface GraphNode {
   id: string;
   type: NodeType;
@@ -48,6 +64,7 @@ export interface GraphNode {
   languageNotes?: string;
   domainMeta?: DomainMeta;
   knowledgeMeta?: KnowledgeMeta;
+  figmaMeta?: FigmaMeta;
 }
 
 // GraphEdge with rich relationship modeling
@@ -90,7 +107,7 @@ export interface ProjectMeta {
 // Root KnowledgeGraph
 export interface KnowledgeGraph {
   version: string;
-  kind?: "codebase" | "knowledge";
+  kind?: "codebase" | "knowledge" | "design";
   project: ProjectMeta;
   nodes: GraphNode[];
   edges: GraphEdge[];
