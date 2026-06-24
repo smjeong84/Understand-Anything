@@ -768,4 +768,16 @@ describe("design graph schema", () => {
     const res = validateGraph(g);
     expect(res.data!.nodes.find((n) => n.id === "screen:1:2")!.type).toBe("screen");
   });
+
+  it("keeps componentSet (the only camelCase node type) through sanitize lowercasing", () => {
+    const g = designGraph();
+    g.nodes.push({ id: "componentSet:7:8", type: "componentSet", name: "Button", summary: "s", tags: ["ds"], complexity: "simple" });
+    g.edges.push({ source: "component:3:4", target: "componentSet:7:8", type: "variant_of", direction: "forward", weight: 0.9 });
+    const res = validateGraph(g);
+    const set = res.data!.nodes.find((n) => n.id === "componentSet:7:8");
+    expect(set).toBeTruthy();
+    expect(set!.type).toBe("componentSet");
+    // the variant_of edge must survive (its target was not dropped)
+    expect(res.data!.edges.some((e) => e.target === "componentSet:7:8" && e.type === "variant_of")).toBe(true);
+  });
 });

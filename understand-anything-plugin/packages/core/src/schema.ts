@@ -81,6 +81,10 @@ export const NODE_TYPE_ALIASES: Record<string, string> = {
   main_component: "component",
   component_set: "componentSet",
   variant_set: "componentSet",
+  // sanitizeGraph lowercases every node type, and "componentSet" is the only
+  // camelCase canonical NodeType — so it arrives here as "componentset" and
+  // must be mapped back, otherwise it fails the enum check and gets dropped.
+  componentset: "componentSet",
   design_token: "token",
   style: "token",
 };
