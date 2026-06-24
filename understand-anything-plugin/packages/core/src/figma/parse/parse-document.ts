@@ -1,5 +1,5 @@
-import type { GraphNode, GraphEdge } from "../../types";
-import type { FigmaDocument, FigmaNode } from "../source/types";
+import type { GraphNode, GraphEdge } from "../../types.js";
+import type { FigmaDocument, FigmaNode } from "../source/types.js";
 
 function mkNode(
   type: GraphNode["type"],

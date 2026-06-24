@@ -1,4 +1,4 @@
-import type { FigmaSource, FigmaDocument, FigmaStyles } from "./types";
+import type { FigmaSource, FigmaDocument, FigmaStyles } from "./types.js";
 
 const FIGMA_API = "https://api.figma.com/v1";
 

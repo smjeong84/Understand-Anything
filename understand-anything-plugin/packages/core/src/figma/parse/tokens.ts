@@ -1,5 +1,5 @@
-import type { GraphNode, GraphEdge, FigmaMeta } from "../../types";
-import type { FigmaDocument, FigmaNode, FigmaStyles } from "../source/types";
+import type { GraphNode, GraphEdge, FigmaMeta } from "../../types.js";
+import type { FigmaDocument, FigmaNode, FigmaStyles } from "../source/types.js";
 
 const STYLE_KIND: Record<string, NonNullable<FigmaMeta["tokenKind"]>> = {
   FILL: "color", TEXT: "type", EFFECT: "effect", GRID: "grid",
