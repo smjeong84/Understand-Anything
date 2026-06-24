@@ -75,6 +75,9 @@ const NODE_TYPE_TO_CATEGORY: Record<NodeType, NodeCategory> = {
   table: "data", endpoint: "data", schema: "data",
   domain: "domain", flow: "domain", step: "domain",
   article: "knowledge", entity: "knowledge", topic: "knowledge", claim: "knowledge", source: "knowledge",
+  // Design node types (Figma graphs). No dedicated filter category in v1, so they
+  // group under "code" — matching the runtime fallback below — to stay visible by default.
+  page: "code", screen: "code", component: "code", componentSet: "code", instance: "code", token: "code",
 } as const;
 
 // ── Helper components that must live inside <ReactFlow> ────────────────
